@@ -2,6 +2,13 @@
 
 AHK 기반의 폴더내 파일명 일괄 변경 프로그램.
 
+![re1](https://user-images.githubusercontent.com/62345985/141666077-02459929-bcab-41ed-8b39-bc6f3876a6b6.png)
+![re2](https://user-images.githubusercontent.com/62345985/141666078-9babd03a-5717-4364-a25a-88ec007d2d63.png)
+![re3](https://user-images.githubusercontent.com/62345985/141666079-fddb0f91-3ab6-40b4-a116-9a777afd49ee.png)
+![re4](https://user-images.githubusercontent.com/62345985/141666081-4ea9eca7-fa19-4ca6-ba9b-77cfb7c21b6a.png)
+![re5](https://user-images.githubusercontent.com/62345985/141666082-e3ce7a3f-10d3-45d9-b92e-1cea7a920375.png)
+![renamer](https://user-images.githubusercontent.com/62345985/141666083-bda107bd-6acc-4db2-b7f6-262cc1f92944.png)
+
 ## ver 1.5
 
 디자인 개편
