@@ -12,7 +12,7 @@ AHK 기반의 폴더내 파일명 일괄 변경 프로그램.
 
 ![re5](https://user-images.githubusercontent.com/62345985/141666082-e3ce7a3f-10d3-45d9-b92e-1cea7a920375.png)
 
-## ver 1.5
+## ver 1.5 (Now)
 
 디자인 개편
 
