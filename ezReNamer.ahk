@@ -1,19 +1,73 @@
+#NoEnv
+#KeyHistory 0
 #CommentFlag //
+ListLines Off
+Process, Priority, , H
+SetBatchLines, -1
+SetWinDelay, -1
+SetControlDelay, -1
+
 //{
 	FileCreateDir, %A_Temp%\ReNamer
-	FileInstall, help1.png, %A_Temp%\ReNamer\help1.png
-	FileInstall, help2.png, %A_Temp%\ReNamer\help2.png
-	FileInstall, help3.png, %A_Temp%\ReNamer\help3.png
-	FileInstall, help4.png, %A_Temp%\ReNamer\help4.png
-	FileInstall, help5.png, %A_Temp%\ReNamer\help5.png
-	FileInstall, help6.png, %A_Temp%\ReNamer\help6.png
-	FileInstall, help7.png, %A_Temp%\ReNamer\help7.png
-	FileInstall, help8.png, %A_Temp%\ReNamer\help8.png
-	FileInstall, help9.png, %A_Temp%\ReNamer\help9.png
-	FileInstall, ReNamer_Set.ini, %A_Temp%\ReNamer\ReNamer_Set.ini
-	FileInstall, a_Button_usual.png, %A_Temp%\ReNamer\a_Button_usual.png
-	FileInstall, a_Button_hover.png, %A_Temp%\ReNamer\a_Button_hover.png
-	FileInstall, a_Button_click.png, %A_Temp%\ReNamer\a_Button_click.png
+	FileInstall, images\help1.png, %A_Temp%\ReNamer\help1.png, 1
+	FileInstall, images\help2.png, %A_Temp%\ReNamer\help2.png, 1
+	FileInstall, images\help3.png, %A_Temp%\ReNamer\help3.png, 1
+	FileInstall, images\help4.png, %A_Temp%\ReNamer\help4.png, 1
+	FileInstall, images\help5.png, %A_Temp%\ReNamer\help5.png, 1
+	FileInstall, images\help6.png, %A_Temp%\ReNamer\help6.png, 1
+	FileInstall, images\help7.png, %A_Temp%\ReNamer\help7.png, 1
+	FileInstall, images\help8.png, %A_Temp%\ReNamer\help8.png, 1
+	FileInstall, images\help9.png, %A_Temp%\ReNamer\help9.png, 1
+	FileInstall, images\notice.png, %A_Temp%\ReNamer\notice.png, 1
+	FileInstall, images\a_Button_usual.png, %A_Temp%\ReNamer\a_Button_usual.png, 1
+	FileInstall, images\a_Button_hover.png, %A_Temp%\ReNamer\a_Button_hover.png, 1
+	FileInstall, images\a_Button_click.png, %A_Temp%\ReNamer\a_Button_click.png, 1
+	FileInstall, ReNamer_Set.ini, %A_Temp%\ReNamer\ReNamer_Set.ini, 1
+	FileInstall, Update_Set.ini, %A_Temp%\ReNamer\Update_Set.ini
+//}
+
+//{
+	IniRead, version_chk, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
+	if (version_chk = "true")
+	{
+		IniRead, Current_ver, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, version
+		IniRead, Releases_path, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, releases_path
+		Elements := Get_Elements(Releases_path)
+		if (Elements != "")
+		{
+			RegExMatch(Elements, "\n\s*(v[0-9.]*)\n\s*", o)
+			Releases_ver := o1
+			
+			if (Current_ver != Releases_ver)
+			{
+				Gui, Notice: Add, Picture, x20 y15 w34 h34 , %A_Temp%\ReNamer\notice.png
+				Gui, Notice: Add, Text, x+20 y18 w170 h12 , 새 버전이 있습니다.
+				Gui, Notice: Add, Text, xp y+5 w170 h12 , 지금 업데이트 하시겠습니까?
+				Gui, Notice: Add, CheckBox, x70 y+20 w300 h30 vAsk_Again , 다시 물어보지 않기
+				Gui, Notice: Add, Button, x20 y+0 w100 h30 gUpdate_Yes , 예
+				Gui, Notice: Add, Button, x+20 yp w100 h30 gUpdate_No , 아니오
+				Gui, Notice: Show, w260 h140 , Notice
+				Update_Answer := false
+				WinWaitClose, Notice
+				
+				if (Update_Answer = true)
+				{
+					IniRead, File_URL, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, download_url
+					URLDownloadToFile, %File_URL%, %A_WorkingDir%\new_renamer.exe
+					if errorlevel = 0
+					{
+						Run, new_renamer.exe
+						WinWait, ahk_exe new_renamer.exe
+						WinWaitClose, ahk_exe new_renamer.exe
+						Run %comspec% /c Del "%A_ScriptFullPath%" & move "%A_WorkingDir%\new_renamer.exe" "%A_ScriptFullPath%",, hide
+						ExitApp
+					}
+					else
+						MsgBox, 48, Update Fail, 자동 업데이트에 실패했습니다.
+				}
+			}
+		}
+	}
 //}
 
 //{
@@ -65,7 +119,7 @@
 	
 	Gui, Add, Button, x9 y495 w112 h20 gHelp , 도움말
 	Gui, Add, Button, x249 y495 w112 h20 vGui_Expand gGui_Expand , 기능 확장 >>
-	Gui, Add, Text, x130 y500 w110 h15 +Center , version 1.5
+	Gui, Add, Text, x130 y500 w110 h15 +Center , version 1.6
 	
 	Gui, Color, White
 	Gui, Show, w370 h520, ReNamer
@@ -75,17 +129,16 @@
 	
 	Amount := 0 , Change_Count = 0, Gui_Expand = 0, User_Fix = 1
 	
-	IniRead, how_to, %A_Temp%\ReNamer\ReNamer_Set.ini, manual, txt
-	StringReplace, how_to, how_to, ``n, `n, All
-	GuiControl, text, File_List, %how_to%
+	IniRead, Manual, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, manual
+	StringReplace, Manual, Manual, ``n, `n, All
+	GuiControl, text, File_List, %Manual%
 	
 	Gui, Submit, Nohide
 	OnMessage(0x200,"Hover")
-return
+return //}
 
-GuiClose:
-	FileDelete, FileNameChanger
-	FileDelete, FileNameLog
+GuiClose: //{
+	FileDelete, %A_Temp%\ReNamer\History.ini
 	ExitApp
 return //}
 
@@ -130,19 +183,41 @@ Help: //{
 	Gui, Help: Add, Picture, x296 y60 w214 h164 ,  %A_Temp%\ReNamer\help5.png
 	
 	Gui, Help: Tab, 4
-	Gui, Help: Add, Text, x20 y40 w510 h20 , version 1.0 : 기본
-	Gui, Help: Add, Text, x20 y+0 w510 h20 , version 1.1 : 폴더를 드래그하여 불러들이는 기능 추가
-	Gui, Help: Add, Text, x20 y+0 w510 h20 , version 1.2 : 파일 이름이 길 경우 자동 줄넘김이 일어나지 않도록 수정
-	Gui, Help: Add, Text, x20 y+0 w510 h20 , version 1.3 : UI의 좌표값이 고정되어 단일모니터에서 창이 안나타나던 문제를 수정
-	Gui, Help: Add, Text, x20 y+0 w510 h20 , version 1.4 : 목록을 불러올 때 폴더도 불러올 수 있도록 기능 추가
-	Gui, Help: Add, Text, x93 y+0 w510 h20 , 파일 확장자 일괄 변경 가능하도록 기능 추가
-	Gui, Help: Add, Text, x93 y+0 w510 h20 , 1.1 버전에서 추가된 기능의 오류를 해결
-	Gui, Help: Add, Text, x20 y+0 w510 h20 cRed , version 1.5 : 디자인 개편
-	Gui, Help: Add, Text, x93 y+0 w510 h20 cRed , 자릿수 채우기 오류 수정 및 기능 개편
-	Gui, Help: Add, Text, x93 y+0 w510 h20 cRed , 버튼을 통한 편집시 자동으로 임시 저장이 되도록 수정
-	
+
+	Gui, Help: Font, S12 Bold
+	Gui, Help: Add, Text, x20 y40 w510 h20 , version 1.6
+	Gui, Help: Font, S9 norm
+	Gui, Help: Add, Text, x30 y60 w510 h20 cRed , "파일명 변경", "뒤쪽에 추가" 오류 수정 및 기능 개선
+	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 버전 확인 및 자동 업데이트 기능 추가
+	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 업데이트 로그(변경 사항) 디자인 변경
+	Gui, Help: Font, S12 Bold
+	Gui, Help: Add, Text, x20 y+20 w510 h20 , 이전 버전
+	Gui, Help: Font, S9 norm
+	Gui, Help: Add, Edit, x20 y+10 w510 h330 ReadOnly vPrev_Log, 	
 	Gui, Help: Color, White
 	Gui, Help: Show, w550 h520, ReNamer Help
+	
+	IniRead, Update_Log, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, update_log
+	StringReplace, Update_Log, Update_Log, ``n, `n, All
+	GuiControl, text, Prev_Log, %Update_Log%
+	
+	Gui, Submit, Nohide
+return //}
+
+Update_Yes: //{
+	Update_Answer := true
+	gosub, Update_Ask
+return //}
+
+Update_No: //{
+	gosub, Update_Ask
+return //}
+
+Update_Ask: //{
+	Gui, Submit, Nohide
+	if Ask_Again = 1
+		IniWrite, false, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
+	Gui, Notice: Cancel
 return //}
 
 Include_Folder: //{
@@ -179,12 +254,11 @@ Gui_Expand: //{
 		GuiControl, text, Gui_Expand, 기능 확장 >>
 		Gui, Show, w370 h520
 	}
-
 	Gui, Submit, Nohide
 return //}
 
 Select_Folder: //{
-	IniRead, Lasted_Folder, FileNameChanger, SelectFolder, Directory
+	IniRead, Lasted_Folder, %A_Temp%\ReNamer\History.ini, SelectFolder, Directory
 	if Lasted_Folder = ERROR
 		FileSelectFolder, Directory
 	else
@@ -196,24 +270,23 @@ Open_FileList: //{
 	File_Log:="", Amount=""
 	GuiControl, text, Directory, %Directory%
 	Gui, Submit, Nohide
-
-	IniWrite, %Directory%, FileNameChanger, SelectFolder, Directory
-
+	IniDelete, %A_Temp%\ReNamer\History.ini, File_List
+	IniWrite, %Directory%, %A_Temp%\ReNamer\History.ini, SelectFolder, Directory
 	Loop, %Directory%\*, %Include_Folder%
 		Amount++
 	File_Digit := Survey_Digit(Amount)
 	Loop, %Directory%\*, %Include_Folder%
 	{
-		IniWrite, %A_LoopFileName%, FileNameLog, File List, % zfill(A_Index, File_Digit+1)
+		IniWrite, %A_LoopFileName%, %A_Temp%\ReNamer\History.ini, File_List, % zfill(A_Index, File_Digit+1)
 		File_Log .= "`n" . A_LoopFileName
 	}
 	File_Log := Redaction(File_Log)
+	Original_Files := File_Log
 	if (File_Log = "")
 		File_Log := "ERROR!`n폴더가 아니거나, 표시 가능한 항목이 없습니다."
 	GuiControl, text, File_List, % File_Log
 	GuiControl, -ReadOnly, File_List
 	Gui, Submit, Nohide
-	Clipboard := File_Log
 return //}
 
 Temp_Change: //{
@@ -236,8 +309,8 @@ Insert_Front: //{
 	Loop, parse, File_Log, `n
 		Line_Log .= "`n" . Front_Word A_LoopField
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Insert_Back: //{
@@ -245,14 +318,26 @@ Insert_Back: //{
 	Save_Log()
 	Loop, parse, File_Log, `n
 	{
-		StringGetPos, Word_Pos, A_LoopField, ., R
-		StringTrimLeft, Line_Ext, A_LoopField, Word_Pos
-		StringTrimRight, Line_Name, A_LoopField, StrLen(A_LoopField) - Word_Pos
-		Line_Log .= "`n" . Line_Name Back_Word Line_Ext
+		IniRead, This_File, %A_Temp%\ReNamer\History.ini,  File_List, % zfill(A_Index, 3)
+		FileGetAttrib, File_Att, % Directory "\" This_File
+		IfInString, File_Att, D
+			Line_Log .= "`n" . A_LoopField Back_Word
+		else
+		{
+			StringGetPos, Word_Pos, A_LoopField, ., R
+			if (Word_Pos = -1 || Word_Pos < StrLen(A_LoopField) - 6)
+				Line_Log .= "`n" . A_LoopField Back_Word
+			else
+			{
+				StringTrimLeft, Line_Ext, A_LoopField, Word_Pos
+				StringTrimRight, Line_Name, A_LoopField, StrLen(A_LoopField) - Word_Pos
+				Line_Log .= "`n" . Line_Name Back_Word Line_Ext
+			}
+		}
 	}
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Remove_Name: //{
@@ -265,8 +350,8 @@ Remove_Name: //{
 		Line_Log .= "`n" . Line_File
 	}
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Remove_Extension: //{
@@ -279,8 +364,8 @@ Remove_Extension: //{
 		Line_Log .= "`n" . Line_File
 	}
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Replace_Extension: //{
@@ -298,8 +383,8 @@ Replace_Extension: //{
 		}
 	}
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Fill_Zero: //{
@@ -308,11 +393,7 @@ Fill_Zero: //{
 	Loop, parse, File_Log, `n
 	{
 		StringGetPos, Word_Pos, A_LoopField, ., R
-		if (Word_Pos < 0)
-		{
-			// 폴더임
-		}
-		else
+		if (Word_Pos > 0)
 		{
 			StringTrimLeft, Line_Ext, A_LoopField, Word_Pos
 			StringTrimRight, Line_Name, A_LoopField, StrLen(A_LoopField) - Word_Pos
@@ -350,8 +431,8 @@ Fill_Zero: //{
 	{
 		Save_Log()
 		File_Log := Redaction(Line_Log)
+		Line_Log := ""
 		GuiControl, text, File_List, % File_Log
-		Line_Log=
 	}
 return //}
 
@@ -361,8 +442,8 @@ Add_Zero: //{
 	Loop, parse, File_Log, `n
 		Line_Log .= "`n" . zfill(A_Index, Set_Digit+1) . A_LoopField
 	File_Log := Redaction(Line_Log)
+	Line_Log := ""
 	GuiControl, text, File_List, % File_Log
-	Line_Log=
 return //}
 
 Undo: //{
@@ -396,17 +477,36 @@ return //}
 File_Rename: //{
 	Gui, Submit, Nohide
 	Img_Click()
+	Rename_Err := 0, Change_List := ""
 	Loop, parse, File_List, `n
 	{
-		IniRead, Before_Name, FileNameLog, File List, % zfill(A_Index, File_Digit+1)
+		IniRead, Before_Name, %A_Temp%\ReNamer\History.ini, File_List, % zfill(A_Index, File_Digit+1)
 		IfNotExist, % Directory "\" Before_Name "\"
-			FileMove, % Directory "\" Before_Name, % Directory "\" A_LoopField, R
+			FileMove, % Directory "\" Before_Name, % Directory "\" A_LoopField
 		else
-		FileMoveDir, % Directory "\" Before_Name, % Directory "\" A_LoopField, R
+			FileMoveDir, % Directory "\" Before_Name, % Directory "\" A_LoopField, R
+		if errorlevel = 0
+		{
+			IniWrite, %A_LoopField%, %A_Temp%\ReNamer\History.ini, File_List, % zfill(A_Index, File_Digit+1)
+			Change_List .= "`n" A_LoopField
+		}
+		else
+		{
+			Change_List .= "`n" Before_Name
+			Rename_Err++
+		}
+	}
+	if (Rename_Err > 0)
+	{
+		File_List := Redaction(Change_List)
+		GuiControl, text, File_List, %File_List%
+		Gui, Submit, Nohide
+		MsgBox, 이름이 중복되어 %Rename_Err%개 파일의 이름 변경에 실패했습니다.
 	}
 return //}
 
 // Func List {
+
 Survey_Digit(value)
 {
 	if value<10
@@ -481,6 +581,20 @@ Hover()
 		GuiControl, Show, Rename_BTN_base
 		GuiControl, Hide, Rename_BTN_hover
 	}
+}
+
+Get_Elements(var)
+{
+	try
+	{
+		p := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+		p.Open("GET",var)
+		p.Send()
+		p.WaitForResponse()
+		return p.ResponseText 
+	}
+	catch
+		return
 }
 
 //}
