@@ -71,7 +71,7 @@ SetControlDelay, -1
 //}
 
 //{
-	Gui, Add, CheckBox, x75 y3 w222 h18 cRed Checked vInclude_Folder gInclude_Folder, 목록을 불러올 때 폴더도 불러옵니다.
+	Gui, Add, CheckBox, x75 y3 w222 h18 cBlack vInclude_Folder gInclude_Folder, 목록을 불러올 때 폴더도 불러옵니다.
 	Gui, Add, Edit, x10 y21 w240 h18 ReadOnly vDirectory , 우측 버튼을 눌러 경로를 선택해주세요.
 	Gui, Add, Button, x260 y20 w100 h20 gSelect_Folder , 폴더 선택
 	
@@ -116,22 +116,36 @@ SetControlDelay, -1
 	Gui, Add, Radio, x+10 yp w25 h20 gSet_Digit , 7
 	Gui, Add, Button, x490 y240 w100 h25 gFill_Zero , 자릿수 채우기
 	Gui, Add, Button, x375 y240 w100 h25 gAdd_Zero , 번호 만들기
+	Gui, Add, Button, x370 y440 w220 h52 vList_Refresh gList_Refresh, 폴더 새로고침
 	
 	Gui, Add, Button, x9 y495 w112 h20 gHelp , 도움말
 	Gui, Add, Button, x249 y495 w112 h20 vGui_Expand gGui_Expand , 기능 확장 >>
-	Gui, Add, Text, x130 y500 w110 h15 +Center , version 1.6
+	Gui, Add, Button, x530 y495 w60 h20 gSetting , 설정
+	
+	Gui, Add, Text, x130 y500 w110 h15 +Center , version 1.7
 	
 	Gui, Color, White
 	Gui, Show, w370 h520, ReNamer
 	
 	GuiControl, Disable, Undo
 	GuiControl, Disable, Temp_Save
+	GuiControl, Disable, List_Refresh
 	
 	Amount := 0 , Change_Count = 0, Gui_Expand = 0, User_Fix = 1
 	
 	IniRead, Manual, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, manual
 	StringReplace, Manual, Manual, ``n, `n, All
 	GuiControl, text, File_List, %Manual%
+	
+	IniRead, refresh_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
+	Input_Refresh := (refresh_chk = "true") ? 1 : 0
+	
+	IniRead, include_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
+	if (include_chk = "true")
+	{
+		GuiControl, , Include_Folder, 1
+		GuiControl, +cRed, Include_Folder
+	}
 	
 	Gui, Submit, Nohide
 	OnMessage(0x200,"Hover")
@@ -185,11 +199,11 @@ Help: //{
 	Gui, Help: Tab, 4
 
 	Gui, Help: Font, S12 Bold
-	Gui, Help: Add, Text, x20 y40 w510 h20 , version 1.6
+	Gui, Help: Add, Text, x20 y40 w510 h20 , version 1.7
 	Gui, Help: Font, S9 norm
-	Gui, Help: Add, Text, x30 y60 w510 h20 cRed , "파일명 변경", "뒤쪽에 추가" 오류 수정 및 기능 개선
-	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 버전 확인 및 자동 업데이트 기능 추가
-	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 업데이트 로그(변경 사항) 디자인 변경
+	Gui, Help: Add, Text, x30 y60 w510 h20 cRed , "자릿수 채우기" 실패시 일어나던 오류 수정
+	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 새로고침 기능 및 설정 탭 추가
+	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , 이전 설정을 기억하도록 수정 (폴더 불러오기, F5 새로고침, 업데이트 설정)
 	Gui, Help: Font, S12 Bold
 	Gui, Help: Add, Text, x20 y+20 w510 h20 , 이전 버전
 	Gui, Help: Font, S9 norm
@@ -201,6 +215,43 @@ Help: //{
 	StringReplace, Update_Log, Update_Log, ``n, `n, All
 	GuiControl, text, Prev_Log, %Update_Log%
 	
+	Gui, Submit, Nohide
+return //}
+
+Setting: //{
+	Gui, Setting: New
+	Gui, Setting: Add, Checkbox, x20 y20 w200 h20 vAuto_Update gAuto_Update , % " 자동 업데이트 허용"
+	Gui, Setting: Add, Checkbox, x20 y+10 w200 h20 vInput_Refresh gInput_Refresh , % " F5 키로 새로고침 허용"
+	Gui, Setting: Show, w280 h90, Setting
+
+	IniRead, version_chk, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
+	if (version_chk = "true")
+		GuiControl, , Auto_Update, 1
+	else
+		GuiControl, , Auto_Update, 0
+
+	IniRead, refresh_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
+	if (refresh_chk = "true")
+		GuiControl, , Input_Refresh, 1
+	else
+		GuiControl, , Input_Refresh, 0
+	
+	Gui, Submit, Nohide
+return //}
+
+Auto_Update: //{
+	if Auto_Update = 0
+		IniWrite, true, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
+	else
+		IniWrite, false, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
+	Gui, Submit, Nohide
+return //}
+
+Input_Refresh: //{
+	if Input_Refresh = 0
+		IniWrite, true, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
+	else
+		IniWrite, false, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
 	Gui, Submit, Nohide
 return //}
 
@@ -222,9 +273,15 @@ return //}
 
 Include_Folder: //{
 	if Include_Folder = 0
+	{
+		IniWrite, true, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
 		GuiControl, +cRed, Include_Folder
+	}
 	else
+	{
+		IniWrite, false, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
 		GuiControl, +cBlack, Include_Folder
+	}
 	Gui, Submit, Nohide
 return //}
 
@@ -283,10 +340,21 @@ Open_FileList: //{
 	File_Log := Redaction(File_Log)
 	Original_Files := File_Log
 	if (File_Log = "")
+	{
 		File_Log := "ERROR!`n폴더가 아니거나, 표시 가능한 항목이 없습니다."
+		GuiControl, Disable, List_Refresh
+	}
+	else
+		GuiControl, Enable, List_Refresh
 	GuiControl, text, File_List, % File_Log
 	GuiControl, -ReadOnly, File_List
 	Gui, Submit, Nohide
+return //}
+
+List_Refresh: //{
+	gosub, Open_FileList
+	Change_Count := 0
+	GuiControl, Disable, Undo
 return //}
 
 Temp_Change: //{
@@ -431,9 +499,9 @@ Fill_Zero: //{
 	{
 		Save_Log()
 		File_Log := Redaction(Line_Log)
-		Line_Log := ""
 		GuiControl, text, File_List, % File_Log
 	}
+	Line_Log := ""
 return //}
 
 Add_Zero: //{
@@ -502,6 +570,18 @@ File_Rename: //{
 		GuiControl, text, File_List, %File_List%
 		Gui, Submit, Nohide
 		MsgBox, 이름이 중복되어 %Rename_Err%개 파일의 이름 변경에 실패했습니다.
+	}
+	GuiControl, Disable, Temp_Save
+return //}
+
+#IfWinActive, ReNamer
+F5:: //{
+	GuiControlGet, Button_State, Enabled, List_Refresh
+	if (Input_Refresh = 1 && Button_State = 1)
+	{
+		gosub, Open_FileList
+		Change_Count := 0
+		GuiControl, Disable, Undo
 	}
 return //}
 
