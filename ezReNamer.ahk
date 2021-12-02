@@ -136,13 +136,13 @@ Gui, Color, White
 IniRead, expand_chk, %A_Temp%\ReNamer\NoneOver_Set.ini, setting, gui_expand
 if (expand_chk = "true")
 {
-	Gui_Expand := false
+	Gui_Expand := true
 	Gui, Show, w600 h520, ReNamer
 	GuiControl, text, Gui_Expand, 기능 축소 <<
 }
 else
 {
-	Gui_Expand := true
+	Gui_Expand := false
 	Gui, Show, w370 h520, ReNamer
 }
 
