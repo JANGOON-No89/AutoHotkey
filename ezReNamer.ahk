@@ -65,89 +65,6 @@ if (version_chk = "true")
 			}
 		}
 	}
-<<<<<<< Updated upstream
-//}
-
-//{
-	Gui, Add, CheckBox, x75 y3 w222 h18 cBlack vInclude_Folder gInclude_Folder, 紐⑸줉??遺덈윭?????대뜑??遺덈윭?듬땲??
-	Gui, Add, Edit, x10 y21 w240 h18 ReadOnly vDirectory , ?곗륫 踰꾪듉???뚮윭 寃쎈줈瑜??좏깮?댁＜?몄슂.
-	Gui, Add, Button, x260 y20 w100 h20 gSelect_Folder , ?대뜑 ?좏깮
-	
-	Gui, Add, GroupBox, x4 y38 w250 h57
-	Gui, Add, Edit, x10 y50 w100 h18 vSearch_Word , 
-	Gui, Add, Edit, xp y70 w100 h18 vReplace_Word ,
-	Gui, Add, Text, x+2 y53 w35 h18 , (??瑜?
-	Gui, Add, Text, xp y73 w35 h18 , (??濡?
-	Gui, Add, Button, x150 y49 w100 h40 gTemp_Change , 李얠븘 諛붽씀湲?
-	
-	Gui, Add, Picture, x260 y44 w100 h50 vRename_BTN_base , %A_Temp%\ReNamer\a_Button_usual.png
-	Gui, Add, Picture, x260 y44 w100 h50 vRename_BTN_hover gFile_Rename +Hidden , %A_Temp%\ReNamer\a_Button_hover.png
-	Gui, Add, Picture, x260 y44 w100 h50 vRename_BTN_click +Hidden , %A_Temp%\ReNamer\a_Button_click.png
-	
-	Gui, Add, Edit, x10 y101 w350 h390 vFile_List gFile_List -Wrap ReadOnly , 
-	
-	Gui, Add, GroupBox, x370 y10 w225 h55
-	Gui, Add, Button, x375 y20 w120 h40 vTemp_Save gTemp_Save , ?꾩떆 ???
-	Gui, Add, Button, x500 y20 w90 h40 vUndo gUndo , ?댁쟾?쇰줈
-	
-	Gui, Add, GroupBox, x370 y65 w225 h60
-	Gui, Add, Edit, x375 y76 w120 h18 vFront_Word ,
-	Gui, Add, Edit, x375 y101 w120 h18 vBack_Word ,
-	Gui, Add, Button, x500 y75 w90 h20 gInsert_Front, ?욎そ??異붽?
-	Gui, Add, Button, x500 y100 w90 h20 gInsert_Back, ?ㅼそ??異붽?
-	
-	Gui, Add, GroupBox, x370 y125 w110 h70
-	Gui, Add, Button, x375 y135 w100 h25 gRemove_Name , ?뚯씪紐??쒓굅
-	Gui, Add, Button, x375 y165 w100 h25 gRemove_Extension , ?뺤옣???쒓굅
-	
-	Gui, Add, GroupBox, x485 y125 w110 h70
-	Gui, Add, Edit, x491 y136 w98 h23 vExtension_Word ,
-	Gui, Add, Button, x490 y165 w100 h25 gReplace_Extension , ?뺤옣??蹂寃?
-	
-	Gui, Add, GroupBox, x370 y200 w225 h70
-	Gui, Add, Text, x460 y200 w45 h20 +0x201 , ?먮┸??
-	Gui, Add, Radio, x383 y220 w25 h20 gSet_Digit, 2
-	Gui, Add, Radio, x+10 yp w25 h20 vSet_Digit gSet_Digit Checked , 3
-	Gui, Add, Radio, x+10 yp w25 h20 gSet_Digit , 4
-	Gui, Add, Radio, x+10 yp w25 h20 gSet_Digit , 5
-	Gui, Add, Radio, x+10 yp w25 h20 gSet_Digit , 6
-	Gui, Add, Radio, x+10 yp w25 h20 gSet_Digit , 7
-	Gui, Add, Button, x490 y240 w100 h25 gFill_Zero , ?먮┸??梨꾩슦湲?
-	Gui, Add, Button, x375 y240 w100 h25 gAdd_Zero , 踰덊샇 留뚮뱾湲?
-	Gui, Add, Button, x370 y440 w220 h52 vList_Refresh gList_Refresh, ?대뜑 ?덈줈怨좎묠
-	
-	Gui, Add, Button, x9 y495 w112 h20 gHelp , ?꾩?留?
-	Gui, Add, Button, x249 y495 w112 h20 vGui_Expand gGui_Expand , 湲곕뒫 ?뺤옣 >>
-	Gui, Add, Button, x530 y495 w60 h20 gSetting , ?ㅼ젙
-	
-	Gui, Add, Text, x130 y500 w110 h15 +Center , version 1.7
-	
-	Gui, Color, White
-	Gui, Show, w370 h520, ReNamer
-	
-	GuiControl, Disable, Undo
-	GuiControl, Disable, Temp_Save
-	GuiControl, Disable, List_Refresh
-	
-	Amount := 0 , Change_Count = 0, Gui_Expand = 0, User_Fix = 1
-	
-	IniRead, Manual, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, manual
-	StringReplace, Manual, Manual, ``n, `n, All
-	GuiControl, text, File_List, %Manual%
-	
-	IniRead, refresh_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
-	Input_Refresh := (refresh_chk = "true") ? 1 : 0
-	
-	IniRead, include_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
-	if (include_chk = "true")
-	{
-		GuiControl, , Include_Folder, 1
-		GuiControl, +cRed, Include_Folder
-	}
-	
-	Gui, Submit, Nohide
-	OnMessage(0x200,"Hover")
-=======
 } //}
 
 //{ 메인 창 구성 및 초기설정
@@ -254,7 +171,6 @@ Gui, Submit, Nohide
 
 // 초기 설정 - 마우스 Hover 이벤트 설정
 OnMessage(0x200,"Hover")
->>>>>>> Stashed changes
 return //}
 
 GuiClose:
@@ -323,110 +239,6 @@ GuiControl, text, Prev_Log, %Update_Log%
 Gui, Submit, Nohide
 return //}
 
-<<<<<<< Updated upstream
-Help: //{
-	Gui, Help: New
-	Gui, Font, cBlack
-	Gui, Help: Add, Tab2, x0 y-2 w550 h20 , 二쇱쓽 ?ы빆|踰꾪듉 ?꾩?留?1|踰꾪듉 ?꾩?留?2|蹂寃??ы빆
-	Gui, Help: Add, Picture, x0 y18 w550 h500 ,  %A_Temp%\ReNamer\help1.png
-	
-	Gui, Help: Tab, 2
-	Gui, Help: Add, Text, x40 y40 w214 h16 +Center cRed, ?욎そ??異붽?
-	Gui, Help: Add, Text, x40 y230 w214 h16 +Center, "AAA" 瑜??욎そ??異붽?
-	Gui, Help: Add, Picture, x40 y60 w214 h164 ,  %A_Temp%\ReNamer\help3.png
-	
-	Gui, Help: Add, Text, x296 y40 w210 h16 +Center cRed, ?ㅼそ??異붽?
-	Gui, Help: Add, Text, x296 y230 w214 h16 +Center, "BBB" 瑜??ㅼそ??異붽?
-	Gui, Help: Add, Picture, x296 y60 w214 h164 ,  %A_Temp%\ReNamer\help4.png
-	
-	Gui, Help: Add, Text, x40 y280 w214 h16 +Center cRed, ?먮┸??梨꾩슦湲?
-	Gui, Help: Add, Text, x40 y470 w214 h40 +Center, 吏?뺣맂 ?먮┸?섎쭔??0??梨꾩썙?ｌ뒿?덈떎.
-	Gui, Help: Add, Picture, x40 y300 w214 h164 ,  %A_Temp%\ReNamer\help7.png
-	
-	Gui, Help: Add, Text, x296 y280 w210 h16 +Center cRed, 踰덊샇 留뚮뱾湲?
-	Gui, Help: Add, Text, x296 y470 w214 h40 +Center, 吏?뺣맂 ?먮┸?섎쭔??踰덊샇瑜?異붽??⑸땲??`n媛???욎そ??異붽??⑸땲??
-	Gui, Help: Add, Picture, x296 y300 w214 h164 ,  %A_Temp%\ReNamer\help8.png
-	
-	Gui, Help: Tab, 3
-	Gui, Help: Add, Text, x40 y40 w214 h16 +Center cRed, 李얠븘 諛붽씀湲?
-	Gui, Help: Add, Text, x40 y230 w214 h40 +Center, "A" 瑜?"?쒕씪留? 濡?諛붽씀湲?
-	Gui, Help: Add, Picture, x40 y60 w214 h164 ,  %A_Temp%\ReNamer\help2.png
-	
-	Gui, Help: Add, Text, x40 y280 w214 h16 +Center cRed, ?뺤옣??蹂寃?
-	Gui, Help: Add, Text, x40 y470 w214 h40 +Center, 紐⑤뱺 ?뺤옣?먮? "ini"濡?蹂寃?n??.)? ?낅젰?섎㈃ ?덈맗?덈떎.
-	Gui, Help: Add, Picture, x40 y300 w214 h164 ,  %A_Temp%\ReNamer\help9.png
-	
-	Gui, Help: Add, Text, x296 y280 w210 h16 +Center cRed, ?뺤옣???쒓굅
-	Gui, Help: Add, Text, x296 y470 w214 h40 +Center, 紐⑤뱺 ?뺤옣?먮? ?쒓굅
-	Gui, Help: Add, Picture, x296 y300 w214 h164 ,  %A_Temp%\ReNamer\help6.png
-	
-	Gui, Help: Add, Text, x296 y40 w210 h16 +Center cRed, ?뚯씪紐??쒓굅
-	Gui, Help: Add, Text, x296 y230 w214 h40 +Center, 紐⑤뱺 ?뚯씪紐낆쓣 ?쒓굅
-	Gui, Help: Add, Picture, x296 y60 w214 h164 ,  %A_Temp%\ReNamer\help5.png
-	
-	Gui, Help: Tab, 4
-
-	Gui, Help: Font, S12 Bold
-	Gui, Help: Add, Text, x20 y40 w510 h20 , version 1.7
-	Gui, Help: Font, S9 norm
-	Gui, Help: Add, Text, x30 y60 w510 h20 cRed , "?먮┸??梨꾩슦湲? ?ㅽ뙣???쇱뼱?섎뜕 ?ㅻ쪟 ?섏젙
-	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , ?덈줈怨좎묠 湲곕뒫 諛??ㅼ젙 ??異붽?
-	Gui, Help: Add, Text, xp y+0 w510 h20 cRed , ?댁쟾 ?ㅼ젙??湲곗뼲?섎룄濡??섏젙 (?대뜑 遺덈윭?ㅺ린, F5 ?덈줈怨좎묠, ?낅뜲?댄듃 ?ㅼ젙)
-	Gui, Help: Font, S12 Bold
-	Gui, Help: Add, Text, x20 y+20 w510 h20 , ?댁쟾 踰꾩쟾
-	Gui, Help: Font, S9 norm
-	Gui, Help: Add, Edit, x20 y+10 w510 h330 ReadOnly vPrev_Log, 	
-	Gui, Help: Color, White
-	Gui, Help: Show, w550 h520, ReNamer Help
-	
-	IniRead, Update_Log, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, update_log
-	StringReplace, Update_Log, Update_Log, ``n, `n, All
-	GuiControl, text, Prev_Log, %Update_Log%
-	
-	Gui, Submit, Nohide
-return //}
-
-Setting: //{
-	Gui, Setting: New
-	Gui, Setting: Add, Checkbox, x20 y20 w200 h20 vAuto_Update gAuto_Update , % " ?먮룞 ?낅뜲?댄듃 ?덉슜"
-	Gui, Setting: Add, Checkbox, x20 y+10 w200 h20 vInput_Refresh gInput_Refresh , % " F5 ?ㅻ줈 ?덈줈怨좎묠 ?덉슜"
-	Gui, Setting: Show, w280 h90, Setting
-
-	IniRead, version_chk, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
-	if (version_chk = "true")
-		GuiControl, , Auto_Update, 1
-	else
-		GuiControl, , Auto_Update, 0
-
-	IniRead, refresh_chk, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
-	if (refresh_chk = "true")
-		GuiControl, , Input_Refresh, 1
-	else
-		GuiControl, , Input_Refresh, 0
-	
-	Gui, Submit, Nohide
-return //}
-
-Auto_Update: //{
-	if Auto_Update = 0
-		IniWrite, true, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
-	else
-		IniWrite, false, %A_Temp%\ReNamer\Update_Set.ini, setting, ask_update
-	Gui, Submit, Nohide
-return //}
-
-Input_Refresh: //{
-	if Input_Refresh = 0
-		IniWrite, true, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
-	else
-		IniWrite, false, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, input_refresh
-	Gui, Submit, Nohide
-return //}
-
-Update_Yes: //{
-	Update_Answer := true
-	gosub, Update_Ask
-=======
 Setting: //{ 설정 창 구성
 Gui, Setting: New
 Gui, Setting: Add, Checkbox, x20 y20 w240 h20 vAuto_Update gAuto_Update , % " 자동 업데이트 허용"
@@ -456,7 +268,6 @@ return //}
 Auto_Update: //{ 자동 업데이트 체크
 IniWrite, % Auto_Update = 0 ? "true" : "false", %A_Temp%\ReNamer\NoneOver_Set.ini, setting, ask_update
 Gui, Submit, Nohide
->>>>>>> Stashed changes
 return //}
 
 Input_Refresh: //{ F5 키로 새로고침 허용
@@ -469,20 +280,6 @@ IniWrite, % Always_Expand = 0 ? "true" : "false", %A_Temp%\ReNamer\NoneOver_Set.
 Gui, Submit, Nohide
 return //}
 
-<<<<<<< Updated upstream
-Include_Folder: //{
-	if Include_Folder = 0
-	{
-		IniWrite, true, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
-		GuiControl, +cRed, Include_Folder
-	}
-	else
-	{
-		IniWrite, false, %A_Temp%\ReNamer\ReNamer_Set.ini, setting, include_folder
-		GuiControl, +cBlack, Include_Folder
-	}
-	Gui, Submit, Nohide
-=======
 Include_Folder: //{ 폴더 목록도 불러오기
 IniWrite, % Include_Folder = 0 ? "true" : "false", %A_Temp%\ReNamer\NoneOver_Set.ini, setting, include_folder
 Gui, Font, % Include_Folder = 0 ? "cRed" : "cBlack"
@@ -499,7 +296,6 @@ Update_Answer := true
 
 Update_No: // 아니오 버튼
 gosub, Update_Ask
->>>>>>> Stashed changes
 return //}
 
 Update_Ask: //{ 다시 물어보지 않음
@@ -596,34 +392,6 @@ IfInString, File_Att, D
 		GuiControl, Enable, List_Refresh
 		GuiControl, -ReadOnly, Edit_Area
 	}
-<<<<<<< Updated upstream
-	File_Log := Redaction(File_Log)
-	Original_Files := File_Log
-	if (File_Log = "")
-	{
-		File_Log := "ERROR!`n?대뜑媛 ?꾨땲嫄곕굹, ?쒖떆 媛?ν븳 ??ぉ???놁뒿?덈떎."
-		GuiControl, Disable, List_Refresh
-	}
-	else
-		GuiControl, Enable, List_Refresh
-	GuiControl, text, File_List, % File_Log
-	GuiControl, -ReadOnly, File_List
-	Gui, Submit, Nohide
-return //}
-
-List_Refresh: //{
-	gosub, Open_FileList
-	Change_Count := 0
-	GuiControl, Disable, Undo
-return //}
-
-Temp_Change: //{
-	Temp_Save(User_Fix)
-	Save_Log()
-	StringReplace, File_Log, File_Log, %Search_Word%, %Replace_Word%, All
-	if errorlevel=0
-		GuiControl, text, File_List, % File_Log
-=======
 	else
 		ERROR = 1
 }
@@ -656,7 +424,6 @@ Loop, parse, Edit_Area, `n
 		ObjRawSet(Origin_List, A_Index, A_LoopField)
 		File_List .= "`n" . A_LoopField
 	}
->>>>>>> Stashed changes
 	else
 	{
 		File_List .= "`n" . Origin_List[A_Index]
@@ -816,28 +583,6 @@ Loop, parse, File_Log, `n
 	StringTrimLeft, Front_Text, File_Name, Front_Digit
 	if (Front_Digit > Fill_Digit + 1)
 	{
-<<<<<<< Updated upstream
-		Save_Log()
-		File_Log := Redaction(Line_Log)
-		GuiControl, text, File_List, % File_Log
-	}
-	Line_Log := ""
-return //}
-
-Add_Zero: //{
-	Temp_Save(User_Fix)
-	Save_Log()
-	Loop, parse, File_Log, `n
-		Line_Log .= "`n" . zfill(A_Index, Set_Digit+1) . A_LoopField
-	File_Log := Redaction(Line_Log)
-	Line_Log := ""
-	GuiControl, text, File_List, % File_Log
-return //}
-
-Undo: //{
-	Gui, Submit, Nohide
-	if Change_Count > 0
-=======
 		MsgBox, 16, Fill Error, 자릿수를 채울 수 없습니다.`n`n앞쪽 숫자의 갯수가 지정한 자릿수를 초과하는 파일이 있습니다.
 		ERROR = 1
 		break
@@ -863,7 +608,6 @@ Loop, parse, File_Log, `n
 	if (Not_Ext = true)
 		File_Name := A_LoopField, File_Ext := ""
 	else
->>>>>>> Stashed changes
 	{
 		StringTrimLeft, File_Ext, A_LoopField, Dot_Pos
 		StringTrimRight, File_Name, A_LoopField, StrLen(A_LoopField) - Dot_Pos
@@ -884,20 +628,6 @@ Loop, parse, File_Log, `n
 		ERROR = 1
 		break
 	}
-<<<<<<< Updated upstream
-	GuiControl, Disable, Temp_Save
-return //}
-
-#IfWinActive, ReNamer
-F5:: //{
-	GuiControlGet, Button_State, Enabled, List_Refresh
-	if (Input_Refresh = 1 && Button_State = 1)
-	{
-		gosub, Open_FileList
-		Change_Count := 0
-		GuiControl, Disable, Undo
-	}
-=======
 }
 if (Err_Stack > 0)
 {
@@ -909,7 +639,6 @@ if ERROR = 0
 	Save()
 else
 	File_List := "", Left_Trim := false
->>>>>>> Stashed changes
 return //}
 
 
