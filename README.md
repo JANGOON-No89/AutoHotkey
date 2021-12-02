@@ -4,7 +4,7 @@ AHK 기반의 폴더내 파일명 일괄 변경 프로그램.
 
 ![re1](https://user-images.githubusercontent.com/62345985/144428551-95943dad-a6ff-4220-a6e3-80bf0c48dbac.png)
 
-![re2](https://user-images.githubusercontent.com/62345985/144428563-ea920970-935c-46e5-bfd1-010c4954b1d2.png)
+![re2](https://user-images.githubusercontent.com/62345985/144429130-894a43bd-d25b-460f-884f-112d7270bca5.png)
 
 ![re3](https://user-images.githubusercontent.com/62345985/141666079-fddb0f91-3ab6-40b4-a116-9a777afd49ee.png)
 
