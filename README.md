@@ -2,17 +2,26 @@
 
 AHK 기반의 폴더내 파일명 일괄 변경 프로그램.
 
-![re1](https://user-images.githubusercontent.com/62345985/141666077-02459929-bcab-41ed-8b39-bc6f3876a6b6.png)
+![re1](https://user-images.githubusercontent.com/62345985/144428551-95943dad-a6ff-4220-a6e3-80bf0c48dbac.png)
 
-![re2](https://user-images.githubusercontent.com/62345985/141666078-9babd03a-5717-4364-a25a-88ec007d2d63.png)
+![re2](https://user-images.githubusercontent.com/62345985/144429130-894a43bd-d25b-460f-884f-112d7270bca5.png)
 
 ![re3](https://user-images.githubusercontent.com/62345985/141666079-fddb0f91-3ab6-40b4-a116-9a777afd49ee.png)
 
 ![re4](https://user-images.githubusercontent.com/62345985/141666081-4ea9eca7-fa19-4ca6-ba9b-77cfb7c21b6a.png)
 
-![re5](https://user-images.githubusercontent.com/62345985/141666082-e3ce7a3f-10d3-45d9-b92e-1cea7a920375.png)
+![re5](https://user-images.githubusercontent.com/62345985/141666082-e3ce7a3f-10d3-45d9-b92e-1cea7a920375.png).
 
-## ver 1.7 (Now)
+## ver 1.8 (Now)
+
+파일명에서 앞,뒤 문자열을 제거하는 기능 추가
+
+기능을 확장한채로 프로그램 실행 기능 추가
+
+기타 자잘한 오류 해결 및 로직 개선
+
+
+## ver 1.7
 
 "자릿수 채우기" 실패시 일어나던 오류 수정
 
